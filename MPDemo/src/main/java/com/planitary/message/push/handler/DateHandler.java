@@ -52,7 +52,7 @@ public class DateHandler {
      * @param loveDate          当前时间
      * @return
      */
-    public  long loveDayTillNow(String loveDate){
+    public long loveDayTillNow(String loveDate){
         SimpleDateFormat simpleDateFormat = DateUtils.getSimpleDateFormat();
         Date loveStartDate;
         LocalDateTime loveStartDateTime = null;
