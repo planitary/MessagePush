@@ -58,6 +58,7 @@ public class DateTest {
         RestTemplate restTemplate = new RestTemplate();
         // get请求,分别对应请求地址，请求参数，响应结果
         String url = baseConfig.getWeatherApi() + "city=" + "112.10.222.164" + "&key=" + baseConfig.getYyKey();
+        String realTimeWeatherApi = baseConfig.getRealTimeWeatherApi() +"city=" + "112.10.222.164" + "&key=" + baseConfig.getYyKey();
         System.out.println(url);
         String res = restTemplate.getForObject(url, String.class);
         JSONObject jsonObject = JSON.parseObject(res);
@@ -76,9 +77,27 @@ public class DateTest {
                 weather.setDate(date);
                 weather.setHighTemperature(todayTemp.getString("qw1"));
                 weather.setLowTemperature(todayTemp.getString("qw2"));
+                if (todayTemp.getString("tq1").contains("雨")){
+                    weather.setExtra("记得出门带好雨伞哦~");
+                }
+                if (todayTemp.getString("tq1").equals("晴")){
+                    weather.setExtra("出门记得做好防晒喔~");
+                }
+                if (todayTemp.getString("tq1").contains("雾") || todayTemp.getString("tq1").contains("霾")){
+                    weather.setExtra("出门注意安全哦~");
+                }
                 weather.setWeather_(todayTemp.getString("tq1"));
             }
         }
-        System.out.println(weather);
+        // 封装报告文本
+        String text = "今天是:" + weather.getDate() + "\n" +
+                weather.getCity() + "区当前天气" + weather.getWeather_() + ",最高温度:" + weather.getHighTemperature() +
+                "度,最低温度:" + weather.getLowTemperature();
+        if (weather.getExtra() != null){
+            weather.setWeatherText(text + "度," + weather.getExtra());
+        }else {
+            weather.setWeatherText(text + "度。");
+        }
+        System.out.println(weather.getWeatherText());
     }
 }

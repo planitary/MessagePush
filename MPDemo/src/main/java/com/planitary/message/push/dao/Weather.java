@@ -5,9 +5,6 @@ import lombok.Data;
 import javax.sql.rowset.spi.SyncResolver;
 
 @Data
-/**
- * 天气实体类
- */
 public class Weather {
 
     /**
@@ -18,7 +15,7 @@ public class Weather {
     private String lowTemperature;
 
     /**
-     * 当前天气
+     * 天气情况
      */
     private String weather_;
 
@@ -37,4 +34,8 @@ public class Weather {
      */
     private String city;
 
+    /**
+     * 附加信息
+     */
+    private String extra;
 }

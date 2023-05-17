@@ -14,6 +14,9 @@ public class BaseConfig {
     @Value("${message.push.weatherApi}")
     private String weatherApi;
 
+    @Value("${message.push.realTimeApi}")
+    private String realTimeWeatherApi;
+
     @Bean
     public String getYyKey(){
         return YyKey;
@@ -21,5 +24,10 @@ public class BaseConfig {
     @Bean
     public String getWeatherApi(){
         return weatherApi;
+    }
+
+    @Bean
+    public String getRealTimeWeatherApi(){
+        return realTimeWeatherApi;
     }
 }

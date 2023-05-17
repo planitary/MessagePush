@@ -5,3 +5,4 @@ message:
     weatherApi: http://api.yytianqi.com/forecast7d?
     loveDay: 2018-03-02
     birthDay: 1996-06-25
+    realTimeApi: http://api.yytianqi.com/observe?
