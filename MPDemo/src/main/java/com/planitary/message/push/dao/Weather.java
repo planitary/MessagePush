@@ -38,4 +38,8 @@ public class Weather {
      * 附加信息
      */
     private String extra;
+    /**
+     * 当前温度
+     */
+    private String currentTemperature;
 }

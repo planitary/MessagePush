@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -20,31 +21,28 @@ public class DateHandler {
     public long currentDayToBirth(String birthDay){
         SimpleDateFormat simpleDateFormat = DateUtils.getSimpleDateFormat();
         Date birthDate;
-        LocalDateTime birthDateTime = null;
+        LocalDate birthDateTime = null;
+        LocalDate currentYearBirthday = null;
         try {
             // 拿到日期的月份，进行比对，如果生日已过，就计算明年的，生日未过，就计算今年的
             birthDate = simpleDateFormat.parse(birthDay);
-            birthDateTime = DateUtils.dateConvert2LocalDateTime(birthDate);
+            birthDateTime = DateUtils.dateConvert2LocalDate(birthDate);
+            // 将生日的年份填充为今年
+            currentYearBirthday = birthDateTime.withYear(LocalDate.now().getYear());
 
-            int birthMonth = birthDateTime.getMonth().getValue();
-            int currentMonth = LocalDateTime.now().getMonth().getValue();
-            int currentYear = LocalDateTime.now().getYear();
+            // 如果当前日期已经过了今年的生日，就计算明年的生日日期
+            if (LocalDate.now().isAfter(currentYearBirthday)){
+                currentYearBirthday = currentYearBirthday.plusYears(1);
+            }
+            if (LocalDate.now().equals(currentYearBirthday)){
+                return 0L;
+            }
 
-            if (currentMonth < birthMonth){
-                // 用当前的时间年份填充生日年份，计算相差值
-                LocalDateTime birthOfThisYear = birthDateTime.withYear(currentYear);
-                return DateUtils.getTimeDiff(LocalDateTime.now(),birthOfThisYear,"days");
-            }
-            else {
-                // 用明年的时间填充生日年份，计算差值
-                LocalDateTime birthOfNextYear = birthDateTime.withYear(currentYear + 1);
-                return DateUtils.getTimeDiff(LocalDateTime.now(),birthOfNextYear,"days");
-            }
 
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return 0L;
+        return DateUtils.getTimeDiff(LocalDate.now(),currentYearBirthday,"days");
     }
 
     /**
@@ -55,13 +53,13 @@ public class DateHandler {
     public long loveDayTillNow(String loveDate){
         SimpleDateFormat simpleDateFormat = DateUtils.getSimpleDateFormat();
         Date loveStartDate;
-        LocalDateTime loveStartDateTime = null;
+        LocalDate loveStartDateTime = null;
         try {
             loveStartDate = simpleDateFormat.parse(loveDate);
-            loveStartDateTime = DateUtils.dateConvert2LocalDateTime(loveStartDate);
+            loveStartDateTime = DateUtils.dateConvert2LocalDate(loveStartDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return DateUtils.getTimeDiff(loveStartDateTime,LocalDateTime.now(),"days");
+        return DateUtils.getTimeDiff(loveStartDateTime,LocalDate.now(),"days");
     }
 }

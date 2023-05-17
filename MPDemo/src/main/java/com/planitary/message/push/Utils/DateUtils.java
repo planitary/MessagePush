@@ -5,10 +5,7 @@ import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,8 +20,8 @@ public class DateUtils {
     /**
      * date转LocalDateTime
      */
-    public static LocalDateTime dateConvert2LocalDateTime(Date date){
-        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+    public static LocalDate dateConvert2LocalDate(Date date){
+        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
     /**
@@ -44,17 +41,17 @@ public class DateUtils {
      * 时间差计算
      * @param startTime     开始时间
      * @param endTime       结束时间
-     * @param key           标记位，以天数或小时位单位返回差值,默认返回毫秒
+     * @param key           标记位，以天数或月份为单位返回差值,默认返回年
      * @return
      */
-    public static long getTimeDiff(LocalDateTime startTime,LocalDateTime endTime,String key){
+    public static long getTimeDiff(LocalDate startTime,LocalDate endTime,String key){
         if (key.equals("days")){
-            return Duration.between(startTime,endTime).toDays();
+            return Period.between(startTime,endTime).getDays();
         }
-        if (key.equals("hours")){
-            return Duration.between(startTime,endTime).toHours();
+        if (key.equals("months")){
+            return Period.between(startTime,endTime).getMonths();
         }
-        return Duration.between(startTime,endTime).toMillis();
+        return Period.between(startTime,endTime).getYears();
     }
 
 
