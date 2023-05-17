@@ -18,9 +18,9 @@ public class Weather {
     private String lowTemperature;
 
     /**
-     * 当前气温
+     * 当前天气
      */
-    private String currentTemp;
+    private String weather_;
 
     /**
      * 日期

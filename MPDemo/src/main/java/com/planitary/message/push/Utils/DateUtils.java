@@ -18,7 +18,7 @@ import java.util.Date;
  */
 public class DateUtils {
     private static final ThreadLocal<SimpleDateFormat> THREAD_LOCAL = new ThreadLocal<>();
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     /**
      * date转LocalDateTime
