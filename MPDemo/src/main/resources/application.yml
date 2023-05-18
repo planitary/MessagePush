@@ -5,14 +5,18 @@ message:
       YyKey: epng87dlcn05sgnq
       weatherFor7DayApi: http://api.yytianqi.com/forecast7d?
       realTimeApi: http://api.yytianqi.com/observe?
+      cityCode: CH210106
+    # 常规变量配置
     common:
       loveDay: 2018-03-02
-      birthDay: 1996-05-17
+      birthDay: 1996-06-25
+    # 天行接口配置
     Tx:
       TxKey: 93d614525302804825d024ce743d95a1
       TxUrl: https://apis.tianapi.com/caihongpi/index?
+    # 微信配置
     Wx:
       appId: wxa2661fb2ab2ed060
       secretKey: 640643cf7555860310feb49b87379de1
       userId: oJOr658VgVRUGr24j8q3GtFYubZk
-      templateId: wsk-EbBAefSTn8dyVwJNC04y83dg0RLLIDIHQCSTU_Q
+      templateId: ZJjyw2DPGjK8BjYQIyiRQPB3XhE4nQsM7sxue-fQW9Q

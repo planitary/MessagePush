@@ -30,10 +30,10 @@ public class PushServiceImpl implements PushService {
     @Resource
     private DateHandler dateHandler;
 
-    @Autowired
+    @Resource
     private WeatherHandler weatherHandler;
 
-    @Autowired
+    @Resource
     private InfoHandler infoHandler;
 
     @Override
@@ -57,23 +57,31 @@ public class PushServiceImpl implements PushService {
         long loveDays = dateHandler.loveDayTillNow(baseConfig.getLoveDay());
         long birthDays = dateHandler.currentDayToBirth(baseConfig.getBirthDay());
         String info = infoHandler.getMessageInfo(baseConfig.getTxKey());
+        log.info("{},{},{}",loveDays,birthDays,info);
 
-        Weather weather = weatherHandler.getWeatherText(IpUtils.getCurrentIPAddress());
+        Weather weather = weatherHandler.getWeatherText(baseConfig.getCityCode());
         if (weather == null){
             log.error("获取天气信息失败");
             throw new RuntimeException("获取天气信息失败");
         }
         else {
-            templateMessage.addData(new WxMpTemplateData("weatherInfo",weather.getWeatherText(),"#00BFFF"));
+            log.info("{}",weather);
+            templateMessage.addData(new WxMpTemplateData("today",weather.getDate(),"#00BFFF"));
+            templateMessage.addData(new WxMpTemplateData("city",weather.getCity(),"#00BFFF"));
+            templateMessage.addData(new WxMpTemplateData("tq",weather.getWeather_(),"#00BFFF"));
+            templateMessage.addData(new WxMpTemplateData("currentTemp",weather.getCurrentTemperature(),"#00BFFF"));
+            templateMessage.addData(new WxMpTemplateData("highTemp",weather.getHighTemperature(),"#00BFFF"));
+            templateMessage.addData(new WxMpTemplateData("lowTemp",weather.getLowTemperature(),"#00BFFF"));
+            templateMessage.addData(new WxMpTemplateData("extra",weather.getExtra(),"#00BFFF"));
         }
-        templateMessage.addData(new WxMpTemplateData("date",weather.getDate(),"#00BFFF"));
         templateMessage.addData(new WxMpTemplateData("loveDays",loveDays + "","#FF1493"));
         templateMessage.addData(new WxMpTemplateData("birthDays",birthDays + "","#FF1493"));
-        String extra = "老婆早上好啊，开启新的一天啦~";
+        String memo = "开启新的一天啦~";
         if (loveDays % 365 == 0){
-            extra = "\n今天是" + (loveDays / 365) + "周年纪念日啦!";
+            memo = "\n今天是我们恋爱" + (loveDays / 365) + "周年纪念日啦!";
         }
-        templateMessage.addData(new WxMpTemplateData("remark", extra ,"#FF1493"));
+        log.info("info:{}",memo);
+        templateMessage.addData(new WxMpTemplateData("memo", memo ,"#FF1493"));
         templateMessage.addData(new WxMpTemplateData("info",info,"#FF69B4"));
         log.info("模板信息:{}",templateMessage.toJson());
         try {

@@ -28,7 +28,6 @@ public class InfoHandler {
             String TxRes = restTemplate.getForObject(url, String.class);
             JSONObject TxJson = JSON.parseObject(TxRes);
             if (TxJson != null) {
-                System.out.println(TxJson);
                 if (TxJson.get("code").equals(200)) {
                     log.info("{}接口调用成功",url);
                     log.info("接口返回:{}",TxJson);

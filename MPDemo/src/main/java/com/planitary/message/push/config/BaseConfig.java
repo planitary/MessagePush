@@ -18,6 +18,9 @@ public class BaseConfig {
     @Value("${message.push.Yy.realTimeApi}")
     private String realTimeWeatherApi;
 
+    @Value("${message.push.Yy.cityCode}")
+    private String cityCode;
+
     @Value("${message.push.Tx.TxKey}")
     private String TxKey;
 
@@ -54,6 +57,11 @@ public class BaseConfig {
     @Bean
     public String getRealTimeWeatherApi(){
         return realTimeWeatherApi;
+    }
+
+    @Bean
+    public String getCityCode(){
+        return cityCode;
     }
 
     @Bean

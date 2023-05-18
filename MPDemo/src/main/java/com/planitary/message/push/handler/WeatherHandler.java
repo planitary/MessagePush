@@ -44,7 +44,6 @@ public class WeatherHandler {
                     log.info("{}调用成功",url);
                     JSONObject data = jsonObject.getJSONObject("data");
                     JSONObject realTimeData = realTimeJson.getJSONObject("data");
-                    System.out.println(data);
                     JSONArray list = data.getJSONArray("list");
                     JSONObject todayTemp = (JSONObject) list.get(0);
                     log.info("Json数组:{}",todayTemp);
@@ -53,6 +52,7 @@ public class WeatherHandler {
                     weather.setDate(date);
                     weather.setHighTemperature(todayTemp.getString("qw1"));
                     weather.setLowTemperature(todayTemp.getString("qw2"));
+                    weather.setExtra("每一天都要注意休息哦");
                     if (realTimeData.getString("tq").contains("雨")){
                         weather.setExtra("记得出门带好雨伞哦~");
                     }
@@ -64,6 +64,11 @@ public class WeatherHandler {
                     }
                     weather.setWeather_(realTimeData.getString("tq"));
                     weather.setCurrentTemperature(realTimeData.getString("qw"));
+                }
+                else {
+                    String errorMsg1 = (String) jsonObject.get("directions");
+                    String errorMsg2 = (String) realTimeJson.get("directions");
+                    log.error("调用失败:{}-{},{}-{}",url,errorMsg1,realTimeWeatherApi,errorMsg2);
                 }
             }
             // 封装报告文本

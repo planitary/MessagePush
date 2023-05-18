@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -41,17 +42,17 @@ public class DateUtils {
      * 时间差计算
      * @param startTime     开始时间
      * @param endTime       结束时间
-     * @param key           标记位，以天数或月份为单位返回差值,默认返回年
+     * @param type           标记位，以天数或月份为单位返回差值,默认返回年
      * @return
      */
-    public static long getTimeDiff(LocalDate startTime,LocalDate endTime,String key){
-        if (key.equals("days")){
-            return Period.between(startTime,endTime).getDays();
+    public static long getTimeDiff(LocalDate startTime,LocalDate endTime,String type){
+        if (type.equals("days")){
+            return startTime.until(endTime, ChronoUnit.DAYS);
         }
-        if (key.equals("months")){
-            return Period.between(startTime,endTime).getMonths();
+        if (type.equals("months")){
+            return startTime.until(endTime,ChronoUnit.MONTHS);
         }
-        return Period.between(startTime,endTime).getYears();
+        return startTime.until(endTime,ChronoUnit.YEARS);
     }
 
 

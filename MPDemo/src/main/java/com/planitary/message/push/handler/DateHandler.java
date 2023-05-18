@@ -47,7 +47,7 @@ public class DateHandler {
 
     /**
      * 计算从某一时刻开始到现在恋爱了多少天
-     * @param loveDate          当前时间
+     * @param loveDate          恋爱日期
      * @return
      */
     public long loveDayTillNow(String loveDate){
