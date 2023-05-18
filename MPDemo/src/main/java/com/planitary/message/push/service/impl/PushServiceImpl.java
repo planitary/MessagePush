@@ -1,6 +1,7 @@
 package com.planitary.message.push.service.impl;
 
 import com.planitary.message.push.Utils.IpUtils;
+import com.planitary.message.push.Utils.WxPushTemplate;
 import com.planitary.message.push.config.BaseConfig;
 import com.planitary.message.push.dao.BaseInfo;
 import com.planitary.message.push.dao.Weather;
@@ -36,6 +37,9 @@ public class PushServiceImpl implements PushService {
     @Resource
     private InfoHandler infoHandler;
 
+    @Resource
+    private WxPushTemplate wxPushTemplate;
+
     @Override
     public String push() throws IOException {
         BaseInfo baseInfo = new BaseInfo();
@@ -66,23 +70,27 @@ public class PushServiceImpl implements PushService {
         }
         else {
             log.info("{}",weather);
-            templateMessage.addData(new WxMpTemplateData("today",weather.getDate(),"#00BFFF"));
-            templateMessage.addData(new WxMpTemplateData("city",weather.getCity(),"#00BFFF"));
-            templateMessage.addData(new WxMpTemplateData("tq",weather.getWeather_(),"#00BFFF"));
-            templateMessage.addData(new WxMpTemplateData("currentTemp",weather.getCurrentTemperature(),"#00BFFF"));
-            templateMessage.addData(new WxMpTemplateData("highTemp",weather.getHighTemperature(),"#00BFFF"));
-            templateMessage.addData(new WxMpTemplateData("lowTemp",weather.getLowTemperature(),"#00BFFF"));
-            templateMessage.addData(new WxMpTemplateData("extra",weather.getExtra(),"#00BFFF"));
+            templateMessage.addData(wxPushTemplate.createWxTemplateData("today",weather.getDate()));
+            templateMessage.addData(wxPushTemplate.createWxTemplateData("city",weather.getCity()));
+            templateMessage.addData(wxPushTemplate.createWxTemplateData("tq",weather.getWeather_()));
+            templateMessage.addData(wxPushTemplate.createWxTemplateData("currentTemp",weather.getCurrentTemperature()));
+            templateMessage.addData(wxPushTemplate.createWxTemplateData("highTemp",weather.getHighTemperature()));
+            templateMessage.addData(wxPushTemplate.createWxTemplateData("lowTemp",weather.getLowTemperature()));
+            templateMessage.addData(wxPushTemplate.createWxTemplateData("extra",weather.getExtra()));
         }
-        templateMessage.addData(new WxMpTemplateData("loveDays",loveDays + "","#FF1493"));
-        templateMessage.addData(new WxMpTemplateData("birthDays",birthDays + "","#FF1493"));
+        templateMessage.addData(wxPushTemplate.createWxTemplateData("loveDays",loveDays + ""));
+        templateMessage.addData(wxPushTemplate.createWxTemplateData("birthDays",birthDays + ""));
         String memo = "开启新的一天啦~";
-        if (loveDays % 365 == 0){
-            memo = "\n今天是我们恋爱" + (loveDays / 365) + "周年纪念日啦!";
+        // LocalDate计算差值的起点是左端点的下一个值,相当于多算了一天
+        if ((loveDays - 1) % 365 == 0){
+            memo = "今天是我们恋爱" + (loveDays / 365) + "周年纪念日啦!";
+        }
+        if (birthDays == 0){
+            memo = "今天是你的生日耶，祝我的宝宝生日快乐啊~~";
         }
         log.info("info:{}",memo);
-        templateMessage.addData(new WxMpTemplateData("memo", memo ,"#FF1493"));
-        templateMessage.addData(new WxMpTemplateData("info",info,"#FF69B4"));
+        templateMessage.addData(wxPushTemplate.createWxTemplateData("memo", memo));
+        templateMessage.addData(wxPushTemplate.createWxTemplateData("info",info));
         log.info("模板信息:{}",templateMessage.toJson());
         try {
             wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);

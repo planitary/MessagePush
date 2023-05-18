@@ -55,7 +55,7 @@ public class DateTest {
     public void loveDateTest(){
         String loveDate = loveDay;
         long loveDay = dateHandler.loveDayTillNow(loveDate);
-        System.out.println(loveDay);
+        System.out.println(loveDay - 1);
     }
 
     @Test

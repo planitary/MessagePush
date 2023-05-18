@@ -7,7 +7,7 @@ import java.io.IOException;
  */
 public interface PushService {
     /**
-     * 业务层主函数
+     * 推送主函数
      *
      */
     String push() throws IOException;
