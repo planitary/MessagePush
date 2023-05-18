@@ -17,6 +17,7 @@ import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -41,6 +42,7 @@ public class PushServiceImpl implements PushService {
     private WxPushTemplate wxPushTemplate;
 
     @Override
+    @Scheduled(cron = "0 30 7 ? *  *")
     public String push() throws IOException {
         BaseInfo baseInfo = new BaseInfo();
         baseInfo.setReceiverName(baseConfig.getUserId());
