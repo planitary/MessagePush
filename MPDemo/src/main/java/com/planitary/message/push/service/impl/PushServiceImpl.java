@@ -42,7 +42,6 @@ public class PushServiceImpl implements PushService {
     private WxPushTemplate wxPushTemplate;
 
     @Override
-    @Scheduled(cron = "0 30 7 ? *  *")
     public String push() throws IOException {
         BaseInfo baseInfo = new BaseInfo();
         baseInfo.setReceiverName(baseConfig.getUserId());
