@@ -15,7 +15,7 @@ public class ScheduledPushController {
     @Autowired
     private PushService pushService;
 
-    @Scheduled(cron = "0 30 7 ? * *")
+    @Scheduled(cron = "0 0/1 * * * ? ")
     public void Push() throws IOException {
         log.info("开始推送");
         pushService.push();

@@ -2,13 +2,15 @@ package com.planitary.message.push.dao;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class BaseInfo {
 
     /**
      * 接收方名字
      */
-    private String receiverName;
+    private List<String> receiverName;
 
     /**
      * 接收方昵称

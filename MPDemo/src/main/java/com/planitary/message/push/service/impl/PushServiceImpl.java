@@ -45,6 +45,7 @@ public class PushServiceImpl implements PushService {
     public String push() throws IOException {
         BaseInfo baseInfo = new BaseInfo();
         baseInfo.setReceiverName(baseConfig.getUserId());
+        baseInfo.setReceiverName(baseConfig.getUserId());
         baseInfo.setTemplateId(baseConfig.getTemplateId());
         // 微信配置
         WxMpInMemoryConfigStorage wxMpInMemoryConfigStorage = new WxMpInMemoryConfigStorage();
@@ -52,13 +53,13 @@ public class PushServiceImpl implements PushService {
         wxMpInMemoryConfigStorage.setSecret(baseConfig.getSecretKey());
         WxMpService wxMpService = new WxMpServiceImpl();
         wxMpService.setWxMpConfigStorage(wxMpInMemoryConfigStorage);
-
         // 消息推送
         WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
-                .toUser(baseInfo.getReceiverName())
+                .toUser(baseInfo.getReceiverName().get(0))
+                .toUser(baseInfo.getReceiverName().get(1))
                 .templateId(baseInfo.getTemplateId())
                 .build();
-        // 配置消息
+            // 配置消息
         long loveDays = dateHandler.loveDayTillNow(baseConfig.getLoveDay());
         long birthDays = dateHandler.currentDayToBirth(baseConfig.getBirthDay());
         String info = infoHandler.getMessageInfo(baseConfig.getTxKey());

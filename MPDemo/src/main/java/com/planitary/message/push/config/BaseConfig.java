@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class BaseConfig {
     @Value("${message.push.Yy.YyKey}")
@@ -40,7 +42,7 @@ public class BaseConfig {
     private String birthDay;
 
     @Value("${message.push.Wx.userId}")
-    private String UserId;
+    private List<String> UserId;
 
     @Value("${message.push.Wx.templateId}")
     private String templateId;
@@ -95,7 +97,7 @@ public class BaseConfig {
     }
 
     @Bean
-    public String getUserId(){
+    public List<String> getUserId(){
         return UserId;
     }
 
