@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.Random;
 
 @Service
 @Slf4j
@@ -43,6 +44,11 @@ public class PushServiceImpl implements PushService {
 
     @Override
     public String push() throws IOException {
+        Random random = new Random();
+        int prefix = random.nextInt(99);
+        String pushId = String.valueOf(prefix + System.currentTimeMillis());
+        log.info("推送id:{}",pushId);
+
         BaseInfo baseInfo = new BaseInfo();
         baseInfo.setReceiverName(baseConfig.getUserId());
         baseInfo.setReceiverName(baseConfig.getUserId());
